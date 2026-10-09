@@ -18,6 +18,9 @@ public class DeckBuilderHand1 : MonoBehaviour
 
     private List<GameObject> cards;
     private List<GameObject> hand = new List<GameObject>();
+    private List<GameObject> equipment = new List<GameObject>();
+
+    private const int MAX_EQUIPMENT = 4;
 
     private void Awake()
     {
@@ -141,4 +144,26 @@ public class DeckBuilderHand1 : MonoBehaviour
 
         Debug.Log(handText);
     }
-}
+
+    public void EquipCard(GameObject card)
+    {
+        if (!hand.Contains(card))
+        {
+            throw new System.InvalidOperationException(
+                "Cannot equip " + card.name + ": card is not in the hand."
+            );
+        }
+
+        if (equipment.Count >= MAX_EQUIPMENT)
+        {
+            throw new System.InvalidOperationException(
+                "Cannot equip " + card.name + ": equipment slots are full."
+            );
+        }
+
+        hand.Remove(card);
+        equipment.Add(card);
+
+        Debug.Log("Equipped card: " + card.name);
+    }
+} 
